@@ -7,32 +7,32 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Base palette close to TFIMainPage (light sky / indigo / slate) */
+        body {
+            background-color: #f1f5f9; /* slate-100 */
+            color: #0f172a;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
         /* Custom styles for the scrolling effect */
         .scrolling-wrapper {
-            /* Now an manually scrollable container, overflow-x is necessary for the smooth scrolling to work */
             -webkit-overflow-scrolling: touch;
-            overflow-x: scroll; 
+            overflow-x: scroll;
         }
 
-        /* NEW: Flex container to manage layout and gap */
         .scrolling-content {
             display: flex;
-            /* Tailwind gap-6 = 1.5rem = 24px */
-            gap: 1.5rem; 
+            gap: 1.5rem; /* 24px */
         }
         
-        /* ADJUSTED: Base styles for scrolling item container */
         .scrolling-item {
-            flex-shrink: 0; /* Prevents items from shrinking in flex container */
-            box-sizing: border-box; 
-            /* Default: On mobile, show only one item, filling the viewport width nicely */
-            width: 90vw; 
+            flex-shrink: 0;
+            box-sizing: border-box;
+            width: 90vw;
         }
 
-        /* FIXED: On medium screens and up, set width to show *EXACTLY* two items plus the gap. */
         @media (min-width: 768px) {
             .scrolling-item {
-                /* Calculation: (100% - 1.5rem gap) / 2 = 50% - 0.75rem */
                 width: calc(50% - 0.75rem);
             }
         }
@@ -42,73 +42,119 @@
         }
         .card-project:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
+                        0 4px 6px -2px rgba(0,0,0,0.05);
         }
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio (for YouTube embed) */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             max-width: 100%;
         }
         .video-container iframe, .video-container video {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
         }
 
-        /* Significantly Increased height for better visibility and reduced perceived thinness */
         .scrolling-item img {
-            height: 300px; /* Increased height for better visibility */
-            width: 100%; /* Fill the scrolling-item width */
-            object-fit: cover; /* Use cover to ensure no blank space/white columns */
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
             border-radius: 0.5rem;
         }
         @media (max-width: 640px) {
             .scrolling-item img {
-                height: 250px; /* Adjusted height for small screens */
+                height: 250px;
             }
+        }
+
+        /* Fade-in on scroll */
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .fade-in-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover zoom effect for carousel images */
+        .zoom-hover {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .zoom-hover:hover {
+            transform: scale(1.04);
+            box-shadow: 0 16px 30px rgba(15,23,42,0.28);
+        }
+
+        /* Highlight panel inside hero */
+        .hero-highlight {
+            background: linear-gradient(to right, rgba(191,219,254,0.9), rgba(224,231,255,0.95));
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.75rem;
+            box-shadow: 0 20px 45px rgba(15,23,42,0.18);
+            border: 1px solid rgba(129,140,248,0.5);
+        }
+
+        /* Back to main journey button container */
+        .top-bar {
+            background: #e0f2fe; /* sky-100 */
+            border-bottom: 1px solid #bae6fd;
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body>
+
+    <!-- TOP BAR: Back to Main Journey -->
+    <div class="top-bar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-2 flex justify-start">
+            <a href="https://iamvrajgopal.github.io/TFIMainPage/"
+               class="inline-flex items-center gap-1 text-sm text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-300 px-3 py-1.5 rounded-full shadow-sm transition">
+                <span aria-hidden="true">←</span>
+                <span>Back to Main Journey</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Hero Section: National Champion Success (Light Background) -->
-    <section class="bg-indigo-50 pt-20 pb-16 md:pt-32 md:pb-24 text-gray-900 rounded-b-3xl shadow-xl">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <!-- Sub-Headline -->
-            <h2 class="text-indigo-600 text-sm font-semibold uppercase tracking-wider mb-2">
-                Amazon Future Engineer Innovation Challenge
-            </h2>
-            <!-- Main Headline -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-                From Varsha Nagar MPS to National Champions
-            </h1>
-            <!-- Core Message -->
-            <p class="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto mb-10">
-                <!-- Highlight competition scale FIRST -->
-                <span class="text-indigo-700 font-semibold mt-4 block">
-                    Our students of Grade 9 were competing against over 3,000 school children from Grade 8-12 across the country to achieve this feat.
-                </span>
-                <br><br>
-                Witness the transformative journey of students from <b>Varsha Nagar MPS</b>, who leveraged problem-solving skills and modern technology to design impactful, real-world solutions for society.
-            </p>
+    <section class="bg-sky-50 pt-14 pb-16 md:pt-20 md:pb-24 rounded-b-3xl shadow-xl">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center fade-in-on-scroll">
+            <!-- Highlight Panel with Blue Background -->
+            <div class="hero-highlight inline-block text-left max-w-3xl mx-auto">
+                <!-- Sub-Headline -->
+                <h2 class="text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-sky-800 mb-2">
+                    Amazon Future Engineer Innovation Challenge
+                </h2>
+                <!-- Main Headline -->
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-slate-900 mb-3">
+                    From Varsha Nagar MPS to National Champions
+                </h1>
+                <!-- Core Message -->
+                <p class="text-sm sm:text-base md:text-lg text-slate-800">
+                    <span class="font-semibold text-indigo-800">
+                        Our students of Grade 9 were competing against over 3,000 school children from Grade 8–12 across the country to achieve this feat.
+                    </span>
+                    <br><br>
+                    Witness the transformative journey of students from <span class="font-semibold">Varsha Nagar MPS</span>, who leveraged problem-solving skills and modern technology to design impactful, real-world solutions for society.
+                </p>
+            </div>
 
             <!-- Winning Photo -->
-            <div class="relative max-w-xl mx-auto rounded-xl overflow-hidden shadow-2xl">
+            <div class="relative max-w-xl mx-auto rounded-2xl overflow-hidden shadow-2xl mt-10 fade-in-on-scroll">
                 <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/winner.jpg" 
                      onerror="this.onerror=null; this.src='https://placehold.co/1000x550/e0e7ff/1e3a8a?text=STUDENTS+CROWNED+NATIONAL+CHAMPIONS'"
                      alt="Students winning the Amazon Future Engineer competition" 
-                     class="w-full object-cover">
+                     class="w-full object-cover zoom-hover">
                 <div class="absolute inset-0 bg-indigo-500 opacity-10"></div>
             </div>
         </div>
     </section>
     
     <!-- Design Process and Leadership Skills -->
-    <section class="py-16 md:py-24 bg-white">
+    <section class="py-16 md:py-24 bg-white fade-in-on-scroll">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
                 Cultivating Leaders for Tomorrow: The Design Process
@@ -119,33 +165,39 @@
 
             <div class="grid md:grid-cols-3 gap-8 text-center">
                 <!-- Step 1: Empathise (Identify Problem) -->
-                <div class="p-6 rounded-xl bg-indigo-50 shadow-md">
+                <div class="p-6 rounded-xl bg-indigo-50 shadow-md fade-in-on-scroll">
                     <div class="text-indigo-600 mb-3 mx-auto">
-                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
                     </div>
-                    <h3 class="font-semibold text-xl text-gray-800 mb-2">1. Empathise & Define</h3>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-2">1. Empathise &amp; Define</h3>
                     <p class="text-gray-600 text-sm text-left">
                         Students engaged in <b>deep empathetic listening</b>, identifying critical social challenges faced by communities globally. This skill enabled them to move beyond personal issues to see the wider societal need, fostering <b>self-awareness and social leadership</b>.
                     </p>
                 </div>
 
                 <!-- Step 2: Ideate (Brainstorm Solutions) -->
-                <div class="p-6 rounded-xl bg-indigo-50 shadow-md">
+                <div class="p-6 rounded-xl bg-indigo-50 shadow-md fade-in-on-scroll">
                     <div class="text-indigo-600 mb-3 mx-auto">
-                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 20.25v-4.5M3.375 12h17.25m-17.25 0a1.875 1.875 0 01-1.875-1.875V4.875C1.5 3.839 2.339 3 3.375 3h17.25c1.036 0 1.875.839 1.875 1.875v5.25c0 1.036-.839 1.875-1.875 1.875M9.75 10.5a.75.75 0 100-1.5.75.75 0 000 1.5M10.749 16.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0ZM13.5 10.5a.75.75 0 100-1.5.75.75 0 000 1.5ZM14.499 16.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0Z"></path></svg>
+                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 20.25v-4.5M3.375 12h17.25m-17.25 0a1.875 1.875 0 01-1.875-1.875V4.875C1.5 3.839 2.339 3 3.375 3h17.25c1.036 0 1.875.839 1.875 1.875v5.25c0 1.036-.839 1.875-1.875 1.875M9.75 10.5a.75.75 0 100-1.5.75.75 0 000 1.5M10.749 16.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0ZM13.5 10.5a.75.75 0 100-1.5.75.75 0 000 1.5ZM14.499 16.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0Z"></path>
+                        </svg>
                     </div>
-                    <h3 class="font-semibold text-xl text-gray-800 mb-2">2. Ideate & Brainstorm</h3>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-2">2. Ideate &amp; Brainstorm</h3>
                     <p class="text-gray-600 text-sm text-left">
                         The teams engaged in intense <b>collaborative brainstorming</b>, leading to the selection of two powerful concepts focused on humanitarian aid. This step fostered <b>team leadership, critical thinking, and disciplined decision-making</b>.
                     </p>
                 </div>
 
                 <!-- Step 3: Prototype (Build Solution) -->
-                <div class="p-6 rounded-xl bg-indigo-50 shadow-md">
+                <div class="p-6 rounded-xl bg-indigo-50 shadow-md fade-in-on-scroll">
                     <div class="text-indigo-600 mb-3 mx-auto">
-                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
                     </div>
-                    <h3 class="font-semibold text-xl text-gray-800 mb-2">3. Prototype & Test</h3>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-2">3. Prototype &amp; Test</h3>
                     <p class="text-gray-600 text-sm text-left">
                         Students translated their ideas into functional prototypes, applying complex technical skills (AI/ML, Database management) to create tangible solutions. This demonstrated <b>initiative, technical mastery, and the ability to execute a vision</b>.
                     </p>
@@ -153,20 +205,18 @@
             </div>
         </div>
     </section>
-    <!-- END NEW SECTION -->
 
     <!-- Impact Grid: The Two Prototypes -->
-    <section class="py-16 md:py-24" id="impact-grid">
+    <section class="py-16 md:py-24 bg-slate-50 fade-in-on-scroll" id="impact-grid">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
                 Two Prototypes, One Vision: Solutions for Conflict Zones
             </h2>
 
             <div class="grid md:grid-cols-2 gap-10">
-
                 <!-- Project 1: Bridge of Care App -->
                 <div class="card-project bg-white p-8 rounded-xl shadow-lg border-t-4 border-indigo-500">
-                    <span class="text-xs font-semibold text-indigo-600 uppercase">National Finalist & Champion Project</span>
+                    <span class="text-xs font-semibold text-indigo-600 uppercase">National Finalist &amp; Champion Project</span>
                     <h3 class="text-2xl font-bold text-gray-900 mt-2 mb-4">Bridge of Care App: A Digital Lifeline</h3>
                     <p class="text-gray-600 mb-6">
                         Students designed a humanitarian digital platform to support refugees and war-displaced individuals, helping them rebuild their lives by connecting them to <b>education, employment, safety, and social networks</b> through an accessible, multilingual, and AI-enabled interface.
@@ -174,7 +224,6 @@
                     
                     <div class="space-y-3">
                         <p class="font-semibold text-gray-800">Key Technical Integrations:</p>
-                        <!-- List formatting is clean and uses proper bullets -->
                         <ul class="list-disc list-inside text-sm text-gray-600 space-y-2 pl-4">
                             <li>
                                 <b>CareBridge (AI Engine):</b> Processes audio/video inputs to create clean, professional CVs for job placements.
@@ -199,7 +248,6 @@
 
                     <div class="space-y-3">
                         <p class="font-semibold text-gray-800">Key Technical Integrations:</p>
-                        <!-- List formatting is clean and uses proper bullets -->
                         <ul class="list-disc list-inside text-sm text-gray-600 space-y-2 pl-4">
                             <li>
                                 <b>Dual Functionality:</b> EMV Chip for money transfers and QR Code for identification.
@@ -217,101 +265,98 @@
         </div>
     </section>
 
-    <!-- Validation Section: High-Profile Presentations (Manual Scrolling Photos) -->
-    <section class="bg-indigo-700 py-12 md:py-16">
+    <!-- Validation Section: High-Profile Presentations (Auto-Scrolling Photos) -->
+    <section class="bg-indigo-700 py-12 md:py-16 fade-in-on-scroll">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-center text-white mb-8">
                 Global Validation: Presenting to World-Class Leaders
             </h2>
             
-            <!-- NEW: Wrapper for positioning arrows relative to the content -->
             <div class="relative max-w-7xl mx-auto">
-                
                 <!-- Left Arrow Button -->
                 <button id="prev-presentation" class="absolute left-0 top-1/2 -mt-6 ml-2 p-2 bg-indigo-500 text-white rounded-full shadow-lg z-10 hover:bg-indigo-400 transition transform hover:scale-110 hidden md:block" aria-label="Previous Slides">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
                 </button>
                 
-                <!-- The scrolling content container -->
+                <!-- Scrolling content container -->
                 <div id="presentation-scroller" class="scrolling-wrapper relative">
-                    
-                    <!-- NEW: Used flex and gap for consistent spacing and layout calculation -->
                     <div id="presentation-content" class="scrolling-content">
-                        
-                        <!-- Presentation Photos (sfsp1 to sfsp10) -->
+                        <!-- Presentation Photos -->
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp1.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp1.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+1'"
                                  alt="Student presenting their project slide 1">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp2.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp2.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+2'" 
                                  alt="Student presenting their project slide 2">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp3.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp3.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+3'" 
                                  alt="Student presenting their project slide 3">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp4.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp4.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+4'" 
                                  alt="Student presenting their project slide 4">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp5.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp5.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+5'" 
                                  alt="Student presenting their project slide 5">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp6.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp6.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+6'" 
                                  alt="Student presenting their project slide 6">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp7.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp7.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+7'" 
                                  alt="Student presenting their project slide 7">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp8.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp8.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+8'" 
                                  alt="Student presenting their project slide 8">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp9.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp9.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+9'" 
                                  alt="Student presenting their project slide 9">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp10.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsp10.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f0f4ff/4f46e5?text=PRESENTATION+SLIDE+10'" 
                                  alt="Student presenting their project slide 10">
                         </div>
-                        
                     </div>
                 </div>
                 
                 <!-- Right Arrow Button -->
                 <button id="next-presentation" class="absolute right-0 top-1/2 -mt-6 mr-2 p-2 bg-indigo-500 text-white rounded-full shadow-lg z-10 hover:bg-indigo-400 transition transform hover:scale-110 hidden md:block" aria-label="Next Slides">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </button>
             </div>
             
-            <!-- Updated Footer Note with presentation details -->
-<p class="text-center text-gray-300 text-sm mt-4">
-    <span class="font-medium text-gray-200 mt-2 block">
-        Presented to: Dean of Yale University - School of Engineering, Country Head, Amazon India, and The Chief Advisor to Maharashtra CM.
-    </span>
-    <br>
-    The experience profoundly motivated the students, demonstrating that their ideas have <b>real-world impact and global recognition.</b>
-</p>
+            <p class="text-center text-gray-300 text-sm mt-4">
+                <span class="font-medium text-gray-200 mt-2 block">
+                    Presented to: Dean of Yale University - School of Engineering, Country Head, Amazon India, and The Chief Advisor to Maharashtra CM.
+                </span>
+                <br>
+                The experience profoundly motivated the students, demonstrating that their ideas have <b>real-world impact and global recognition.</b>
+            </p>
         </div>
     </section>
 
     <!-- Technical Deep Dive Video Section -->
-    <section class="py-16 md:py-24 bg-gray-50">
+    <section class="py-16 md:py-24 bg-gray-50 fade-in-on-scroll">
         <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">
                 Technical Deep Dive: Problem-Solving in Action
@@ -320,7 +365,6 @@
                 The solutions were built on a foundation of critical thinking and robust technical integration, guided by design thinking principles.
             </p>
 
-            <!-- Video Embed Container - Now contains the YouTube iframe -->
             <div class="video-container rounded-xl shadow-2xl overflow-hidden">
                 <iframe 
                     width="100%" 
@@ -335,54 +379,50 @@
         </div>
     </section>
 
-    <!-- Mentorship Carousel: Your Role in Action (Manual Scrolling Photos) -->
-    <section class="bg-white py-12 md:py-16 border-t border-gray-200">
+    <!-- Mentorship Carousel: Your Role in Action (Auto-Scrolling Photos) -->
+    <section class="bg-white py-12 md:py-16 border-t border-gray-200 fade-in-on-scroll">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">
                 Leading by Example: Mentorship in the Classroom
             </h2>
             
-            <!-- NEW: Wrapper for positioning arrows relative to the content -->
             <div class="relative max-w-7xl mx-auto">
-                
                 <!-- Left Arrow Button -->
                 <button id="prev-mentorship" class="absolute left-0 top-1/2 -mt-6 ml-2 p-2 bg-purple-500 text-white rounded-full shadow-lg z-10 hover:bg-purple-400 transition transform hover:scale-110 hidden md:block" aria-label="Previous Mentorship Photos">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
                 </button>
 
-                <!-- The scrolling content container -->
                 <div id="mentorship-scroller" class="scrolling-wrapper relative">
-                    
-                    <!-- NEW: Used flex and gap for consistent spacing and layout calculation -->
                     <div id="mentorship-content" class="scrolling-content">
-                        <!-- Mentorship Photos (sfsw1 to sfsw6) - Restored original URLs with onerror fallback -->
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw1.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw1.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+1'"
                                  alt="Fellow working with students on projects">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw2.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw2.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+2'"
                                  alt="Fellow mentoring students on technical skills">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw3.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw3.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+3'"
                                  alt="Fellow providing hands-on guidance">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw4.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw4.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+4'"
                                  alt="Fellow leading a classroom discussion">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw5.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw5.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+5'"
                                  alt="Fellow facilitating a teamwork session">
                         </div>
                         <div class="scrolling-item">
-                            <img src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw6.jpg" 
+                            <img class="zoom-hover" src="https://raw.githubusercontent.com/iamvrajgopal/tfi_impact_stories_v1/main/sfsw6.jpg" 
                                  onerror="this.onerror=null; this.src='https://placehold.co/250x300/f0f4ff/a855f7?text=TEAM+WORKING+6'"
                                  alt="Fellow facilitating a teamwork session">
                         </div>
@@ -391,7 +431,9 @@
 
                 <!-- Right Arrow Button -->
                 <button id="next-mentorship" class="absolute right-0 top-1/2 -mt-6 mr-2 p-2 bg-purple-500 text-white rounded-full shadow-lg z-10 hover:bg-purple-400 transition transform hover:scale-110 hidden md:block" aria-label="Next Mentorship Photos">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </button>
             </div>
 
@@ -401,41 +443,30 @@
         </div>
     </section>
 
-    <!-- Footer for Contact/Reflections (Simulated) -->
-    <footer class="bg-gray-100 py-10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center text-gray-600">
-            <h3 class="text-xl font-semibold mb-4">Reflections & Contact</h3>
-            <p class="mb-4">
+    <!-- Footer for Contact/Reflections -->
+    <footer class="bg-gray-100 py-10 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center text-gray-600 fade-in-on-scroll">
+            <h3 class="text-xl font-semibold mb-4">Reflections &amp; Contact</h3>
+            <p class="mb-4 max-w-3xl mx-auto">
                 This project encapsulates the potential unlocked when equity meets innovation. It showcases that students from any background, when empowered with the right tools and relationships, can become tomorrow's leaders and social innovators.
             </p>
-            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                [Link to Full Fellowship Journey / Contact Page]
+            <a href="https://iamvrajgopal.github.io/TFIMainPage/" 
+               class="text-indigo-600 hover:text-indigo-800 font-medium">
+                View Full Fellowship Journey
             </a>
             <p class="text-xs mt-4">&copy; 2024 Fellowship Journey Portfolio</p>
         </div>
     </footer>
 
     <script>
-        // Gap is fixed at 1.5rem (tailwind gap-6), which is 24 pixels.
-        const MARGIN_GAP_PX = 24; 
+        const MARGIN_GAP_PX = 24;
 
-        /**
-         * Scrolls the designated carousel container horizontally by the width of one item + its margin/gap.
-         * @param {string} scrollerId - The ID of the container element to scroll (e.g., 'presentation-scroller').
-         * @param {number} direction - 1 for next (right), -1 for previous (left).
-         */
         function scrollCarousel(scrollerId, direction) {
             const scroller = document.getElementById(scrollerId);
-            // We select the first item to get its dynamically calculated width
             const firstItem = scroller ? scroller.querySelector('.scrolling-item') : null;
-            
             if (scroller && firstItem) {
-                // offsetWidth is the calculated width of the item 
                 const itemWidth = firstItem.offsetWidth;
-                
-                // The step is the full width of one item + the gap after it
                 const step = itemWidth + MARGIN_GAP_PX;
-
                 scroller.scrollBy({
                     left: direction * step,
                     behavior: 'smooth'
@@ -444,9 +475,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Global Validation Carousel setup
+            // Manual controls
             const prevPresentationBtn = document.getElementById('prev-presentation');
             const nextPresentationBtn = document.getElementById('next-presentation');
+            const prevMentorshipBtn = document.getElementById('prev-mentorship');
+            const nextMentorshipBtn = document.getElementById('next-mentorship');
 
             if (prevPresentationBtn && nextPresentationBtn) {
                 prevPresentationBtn.addEventListener('click', () => {
@@ -457,10 +490,6 @@
                 });
             }
 
-            // 2. Mentorship Carousel setup
-            const prevMentorshipBtn = document.getElementById('prev-mentorship');
-            const nextMentorshipBtn = document.getElementById('next-mentorship');
-
             if (prevMentorshipBtn && nextMentorshipBtn) {
                 prevMentorshipBtn.addEventListener('click', () => {
                     scrollCarousel('mentorship-scroller', -1);
@@ -469,6 +498,48 @@
                     scrollCarousel('mentorship-scroller', 1);
                 });
             }
+
+            // Auto-scroll for both carousels
+            const presentationScroller = document.getElementById('presentation-scroller');
+            const mentorshipScroller = document.getElementById('mentorship-scroller');
+            let presentationAuto = true;
+            let mentorshipAuto = true;
+
+            if (presentationScroller) {
+                presentationScroller.addEventListener('mouseenter', () => presentationAuto = false);
+                presentationScroller.addEventListener('mouseleave', () => presentationAuto = true);
+            }
+            if (mentorshipScroller) {
+                mentorshipScroller.addEventListener('mouseenter', () => mentorshipAuto = false);
+                mentorshipScroller.addEventListener('mouseleave', () => mentorshipAuto = true);
+            }
+
+            // Auto-scroll intervals
+            setInterval(() => {
+                if (presentationAuto) {
+                    scrollCarousel('presentation-scroller', 1);
+                }
+            }, 3500);
+
+            setInterval(() => {
+                if (mentorshipAuto) {
+                    scrollCarousel('mentorship-scroller', 1);
+                }
+            }, 3800);
+
+            // Fade-in on scroll using IntersectionObserver
+            const faders = document.querySelectorAll('.fade-in-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        // Optionally unobserve to avoid re-triggering
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            faders.forEach(el => observer.observe(el));
         });
     </script>
 </body>
